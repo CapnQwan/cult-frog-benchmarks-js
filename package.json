@@ -1,0 +1,65 @@
+{
+  "name": "@cult-frog/benchmarks",
+  "version": "0.0.0",
+  "description": "A dependency free benchmarks CLI for Cult Frog projects",
+  "license": "MIT",
+  "author": "Quin Partridge",
+  "keywords": [
+    "benchmarks",
+    "performance",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CapnQwan/cult-frog-benchmarks-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CapnQwan/cult-frog-benchmarks-js/issues"
+  },
+  "homepage": "https://github.com/CapnQwan/cult-frog-benchmarks-js#readme",
+  "type": "module",
+  "bin": {
+    "cult-frog-bench": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "check": "biome check . --error-on-warnings",
+    "check:ci": "biome ci . --error-on-warnings",
+    "fix": "biome check . --write",
+    "prepublishOnly": "pnpm check:ci && pnpm typecheck && pnpm test && pnpm build",
+    "prepare": "husky"
+  },
+  "packageManager": "pnpm@10.33.4",
+  "lint-staged": {
+    "*.{ts,tsx,js}": [
+      "biome check --write --error-on-warnings --no-errors-on-unmatched"
+    ]
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.13",
+    "@cult-frog/tooling": "^0.1.2",
+    "@types/node": "^22.20.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.5.1",
+    "rimraf": "^6.1.3",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.0"
+  }
+}
