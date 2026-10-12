@@ -19,13 +19,21 @@
   "homepage": "https://github.com/CapnQwan/cult-frog-benchmarks-js#readme",
   "type": "module",
   "bin": {
-    "cult-frog-bench": "./dist/cli.js"
+    "cult-frog-bench": "./dist/cli/bench.js"
   },
   "files": [
     "dist",
+    "src",
+    "!src/**/__tests__",
     "CHANGELOG.md"
   ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
     "./package.json": "./package.json"
   },
   "engines": {
@@ -36,6 +44,7 @@
   },
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "example": "pnpm build && node --experimental-strip-types",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest watch",
