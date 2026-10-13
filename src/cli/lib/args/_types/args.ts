@@ -1,3 +1,3 @@
-export type Args = {
+export interface Args {
   [key: string]: string[];
-};
+}

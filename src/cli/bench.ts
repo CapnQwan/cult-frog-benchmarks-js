@@ -6,10 +6,10 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-import { parseArgs } from './lib/args.js';
+import { Args } from './lib/args/index.js';
 
 const cwd = process.cwd();
-const argsObj = parseArgs();
+const argsObj = Args.parse();
 
 // 1: Load config files
 
@@ -23,11 +23,13 @@ console.log('config', config);
 
 const files = [];
 
-for (const file of readdirSync(cwd, { recursive: true })) {
-  if (typeof file !== 'string') continue;
-  if (includes && !includes.includes(file)) continue;
-  if (excludes?.includes(file)) continue;
-  files.push(file);
+for (const file of readdirSync(cwd, { recursive: true, withFileTypes: true })) {
+  if (file.isDirectory()) continue;
+  const fullPath = resolve(file.parentPath, file.name);
+  if (includes && !includes.includes(fullPath)) continue;
+  if (excludes?.includes(fullPath)) continue;
+  console.log('file', file.name);
+  files.push(fullPath);
 }
 
 // biome-ignore lint/suspicious/noConsole: debugging

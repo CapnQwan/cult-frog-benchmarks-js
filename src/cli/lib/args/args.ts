@@ -1,6 +1,6 @@
 import type { Args } from './_types/args.js';
 
-export function parseArgs(): Args {
+export function parse(): Args {
   const args = process.argv.slice(2);
   const argsObj: Args = {};
 
