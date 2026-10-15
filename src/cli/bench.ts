@@ -3,21 +3,16 @@
 // 0: Parse the command line arguments
 // something like: -s '' is the path to save to? otherwise it will just print to the console
 
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-import { Args } from './lib/args/index.js';
+import { loadBenchmarkConfig } from './lib/index.js';
 
 const cwd = process.cwd();
-const argsObj = Args.parse();
 
 // 1: Load config files
 
-const config = JSON.parse(readFileSync(resolve(cwd, 'cfbench.json'), 'utf8'));
-const includes: string[] | undefined = config.include;
-const excludes: string[] | undefined = config.exclude;
-// biome-ignore lint/suspicious/noConsole: debugging
-console.log('config', config);
+const { include, exclude } = loadBenchmarkConfig(resolve(cwd, 'cfbench.json'));
 
 // 2: Using the config file denoting the naming convention for the benchmarks fetch all of the files in the project that match the naming convention
 
@@ -26,9 +21,8 @@ const files = [];
 for (const file of readdirSync(cwd, { recursive: true, withFileTypes: true })) {
   if (file.isDirectory()) continue;
   const fullPath = resolve(file.parentPath, file.name);
-  if (includes && !includes.includes(fullPath)) continue;
-  if (excludes?.includes(fullPath)) continue;
-  console.log('file', file.name);
+  if (include && !include.includes(fullPath)) continue;
+  if (exclude?.includes(fullPath)) continue;
   files.push(fullPath);
 }
 
@@ -37,15 +31,15 @@ console.log('files', files);
 
 // 3: Execute the benchmarks
 
-const results = {};
+const _results = {};
 
 // 4: Output the results
 
-const saveArgs = argsObj['-s'] || argsObj['--save'];
-if (saveArgs) {
-  const date = new Date().toISOString();
-  const fileName = `${date.replace(/[:.]/g, '-')}.json`;
-  if (saveArgs.length === 0) saveArgs?.push(`${cwd}/.benchmarks`);
-  const path = saveArgs.join(' ');
-  writeFileSync(resolve(path, fileName), JSON.stringify(results, null, 2));
-}
+// const saveArgs = argsObj['-s'] || argsObj['--save'];
+// if (saveArgs) {
+//   const date = new Date().toISOString();
+//   const fileName = `${date.replace(/[:.]/g, '-')}.json`;
+//   if (saveArgs.length === 0) saveArgs?.push(`${cwd}/.benchmarks`);
+//   const path = saveArgs.join(' ');
+//   writeFileSync(resolve(path, fileName), JSON.stringify(results, null, 2));
+// }

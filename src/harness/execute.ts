@@ -9,7 +9,7 @@ export function execute(selectGroups: string[] = []): BenchResult[] {
   for (const registered of ctx.registered) {
     const groups = registered.group.split(' › ');
     if (selectGroups.length > 0 && !groups.some((group) => selectGroups.includes(group))) continue;
-    const summary = benchmark(registered.name, registered.fn, registered.options);
+    const summary = benchmark(registered.fn, registered.options);
     context.registerResult(registered, summary);
   }
 

@@ -1,0 +1,5 @@
+{
+  "include": "a",
+  "exclude": 1,
+  "output": [1, 1]
+}

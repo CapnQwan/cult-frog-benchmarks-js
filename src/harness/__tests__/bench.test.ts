@@ -8,7 +8,7 @@ const TEST_GROUND = 'test group';
 
 const TEST_NAME = 'test';
 const TEST_FN = () => {};
-const TEST_OPTIONS = { samples: 1000, warmupSamples: 1000 };
+const TEST_OPTIONS = { samples: 1000, warmupTime: 100 };
 
 vitest.describe('bench', () => {
   const ctx = context.get();

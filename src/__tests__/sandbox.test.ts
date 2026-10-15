@@ -11,9 +11,10 @@ describe('sandbox', () => {
       i = i + 1;
     };
 
-    it('should run a function a given number of times', () => {
-      const result = benchmark('test', fn, { samples });
-      expect(i).toEqual(samples);
+    it('should record a given number of samples', () => {
+      const result = benchmark(fn, { samples, warmupTime: 0 });
+      expect(result.count).toEqual(samples);
+      expect(i).toBeGreaterThanOrEqual(samples * result.iterations);
     });
   });
 });

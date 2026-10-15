@@ -8,8 +8,9 @@ describe('math', () => {
       () => {
         let s = 0;
         for (let i = 0; i < 1000; i++) s += i;
+        return s;
       },
-      { samples: 1000, warmupSamples: 0 }
+      { samples: 1000, warmupTime: 0 }
     );
 
     bench(
@@ -17,8 +18,9 @@ describe('math', () => {
       () => {
         let s = 0;
         for (let i = 0; i < 1000; i++) s += i;
+        return s;
       },
-      { samples: 1000, warmupSamples: 1000 }
+      { samples: 1000 }
     );
 
     bench(
@@ -26,8 +28,9 @@ describe('math', () => {
       () => {
         let s = 0;
         for (let i = 0; i < 10000; i++) s += i;
+        return s;
       },
-      { samples: 1000, warmupSamples: 0 }
+      { samples: 1000, warmupTime: 0 }
     );
 
     bench(
@@ -35,8 +38,9 @@ describe('math', () => {
       () => {
         let s = 0;
         for (let i = 0; i < 10000; i++) s += i;
+        return s;
       },
-      { samples: 1000, warmupSamples: 1000 }
+      { samples: 1000 }
     );
   });
 
@@ -46,8 +50,9 @@ describe('math', () => {
       () => {
         let s = 0;
         for (let i = 0; i < 1000; i++) s -= i;
+        return s;
       },
-      { samples: 1000, warmupSamples: 0 }
+      { samples: 1000, warmupTime: 0 }
     );
 
     bench(
@@ -55,8 +60,9 @@ describe('math', () => {
       () => {
         let s = 0;
         for (let i = 0; i < 1000; i++) s -= i;
+        return s;
       },
-      { samples: 1000, warmupSamples: 1000 }
+      { samples: 1000 }
     );
 
     bench(
@@ -64,8 +70,9 @@ describe('math', () => {
       () => {
         let s = 0;
         for (let i = 0; i < 10000; i++) s -= i;
+        return s;
       },
-      { samples: 1000, warmupSamples: 0 }
+      { samples: 1000, warmupTime: 0 }
     );
 
     bench(
@@ -73,8 +80,9 @@ describe('math', () => {
       () => {
         let s = 0;
         for (let i = 0; i < 10000; i++) s -= i;
+        return s;
       },
-      { samples: 1000, warmupSamples: 1000 }
+      { samples: 1000 }
     );
   });
 });

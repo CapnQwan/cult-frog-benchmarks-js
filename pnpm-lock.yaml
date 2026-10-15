@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@cult-frog/primitives':
+        specifier: ^0.1.2
+        version: 0.1.2
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.5.13
@@ -91,6 +95,10 @@ packages:
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
+
+  '@cult-frog/primitives@0.1.2':
+    resolution: {integrity: sha512-pvNT1zf9XlnLuCl11m9Psr+x0oY3N03OVVoeVi0qiIwZfUc1u3W8M91fkxTNZlHVajm7KW9hqrFymdsqj5ivRw==}
+    engines: {node: '>=20.19'}
 
   '@cult-frog/tooling@0.1.2':
     resolution: {integrity: sha512-fTNHkCB9KFlE9gTugvtDyx2R1gdXlY+cp5XqNs1OJ9Ft3sz86RtLdwmXOdsMy/U3ZpW000M59s/RrpVncyke6Q==}
@@ -701,6 +709,8 @@ snapshots:
 
   '@biomejs/cli-win32-x64@2.5.15':
     optional: true
+
+  '@cult-frog/primitives@0.1.2': {}
 
   '@cult-frog/tooling@0.1.2(vitest@5.0.3(@types/node@22.20.5)(vite@8.3.4(@types/node@22.20.5)(yaml@2.9.1)))':
     dependencies:

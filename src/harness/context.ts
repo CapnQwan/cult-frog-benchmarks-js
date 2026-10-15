@@ -25,7 +25,7 @@ export function hasGroup() {
   return context.groupStack.length > 0;
 }
 
-export function registerCase(name: string, fn: () => void, options: BenchOptions) {
+export function registerCase(name: string, fn: () => unknown, options: BenchOptions) {
   const ctx = context;
   ctx.registered.push({ name, group: ctx.groupStack.join(' › '), fn, options });
 }
