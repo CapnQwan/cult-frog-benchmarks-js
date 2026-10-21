@@ -1,5 +1,8 @@
 /** biome-ignore-all lint/security/noSecrets: Function names not secrets */
 
+import { mkdtempSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
@@ -28,6 +31,13 @@ describe('loadBenchmarkConfig', () => {
   it('should throw an error if the config file is invalid', () => {
     const path = new URL('./invalid-config.json', import.meta.url);
     expect(() => loadBenchmarkConfig(fileURLToPath(path))).toThrow();
+  });
+
+  it('should throw an error that names the file if the config is not valid JSON', () => {
+    // Written at runtime rather than kept as a fixture, as Biome would fail on the broken JSON
+    const path = join(mkdtempSync(join(tmpdir(), 'cfbench-')), 'malformed-config.json');
+    writeFileSync(path, '{ "include": ["a", }');
+    expect(() => loadBenchmarkConfig(path)).toThrow(path);
   });
 
   it('should load the default config if the config file is not found', () => {
@@ -65,5 +75,15 @@ describe('parseBenchmarkConfig', () => {
     expect(() => parseBenchmarkConfig({ exclude: ['a', 1] })).toThrow();
     expect(() => parseBenchmarkConfig({ output: 1 })).toThrow();
     expect(() => parseBenchmarkConfig({ output: ['a', 1] })).toThrow();
+  });
+
+  it('should throw a descriptive error for unknown keys', () => {
+    expect(() => parseBenchmarkConfig({ foo: 1 })).toThrow('Invalid key in config: foo');
+  });
+
+  it('should throw an error if the config is not an object', () => {
+    expect(() => parseBenchmarkConfig([])).toThrow('expected a JSON object');
+    expect(() => parseBenchmarkConfig(null)).toThrow('expected a JSON object');
+    expect(() => parseBenchmarkConfig('a')).toThrow('expected a JSON object');
   });
 });

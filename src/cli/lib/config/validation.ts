@@ -1,4 +1,4 @@
-import { isString } from '@cult-frog/primitives';
+import { isRecord, isString } from '@cult-frog/primitives';
 
 import type { BenchmarkConfig } from './_types/config.js';
 
@@ -12,16 +12,22 @@ export const CONFIG_VALIDATORS = {
   output: [isString, 'String'],
 } as const;
 
-export function validateField<K extends keyof BenchmarkConfig>(value: unknown, key: K): void {
+function isConfigKey(key: string): key is keyof BenchmarkConfig {
+  return Object.hasOwn(CONFIG_VALIDATORS, key);
+}
+
+export function validateField(value: unknown, key: string): void {
+  if (!isConfigKey(key)) throw new Error(`Invalid key in config: ${key}`);
   const [validator, expectedType] = CONFIG_VALIDATORS[key];
-  if (validator === undefined) throw new Error(`Invalid key in config: ${key}`);
   if (!validator(value))
     throw new Error(`Invalid value for key ${key}: ${value} (expected ${expectedType})`);
 }
 
-export function isValidConfig(config: Record<string, unknown>): config is Partial<BenchmarkConfig> {
+export function isValidConfig(config: unknown): config is Partial<BenchmarkConfig> {
+  // Arrays and null parse as JSON objects too, so check the shape before reading entries
+  if (!isRecord(config)) throw new Error('Invalid config: expected a JSON object');
   for (const [key, value] of Object.entries(config)) {
-    validateField(value, key as keyof BenchmarkConfig);
+    validateField(value, key);
   }
   return true;
 }

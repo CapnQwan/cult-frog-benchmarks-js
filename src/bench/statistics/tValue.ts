@@ -6,8 +6,9 @@ const T_TABLE_95 = [
 ];
 
 /**
- * t critical value at 95% confidence. Above 30 degrees of freedom the value at the lower
- * bound of each range is used, which slightly overstates the margin of error.
+ * t critical value at 95% confidence. From 31 to 120 degrees of freedom the value at the lower
+ * bound of each range is used, which slightly overstates the margin of error. Above 120 the
+ * normal value 1.96 is used, which slightly understates it (t is 1.98 at 120).
  */
 export function tValue95(degreesOfFreedom: number): number {
   if (degreesOfFreedom < 1) return Number.NaN;
