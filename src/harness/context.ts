@@ -1,4 +1,5 @@
 import type { BenchOptions } from '../bench/_types/options.js';
+import type { BenchCase } from './_types/benchCase.js';
 import type { HarnessContext } from './_types/harnessContext.js';
 
 /**
@@ -40,4 +41,13 @@ export function hasGroup() {
 export function registerCase(name: string, fn: () => unknown, options: BenchOptions) {
   const ctx = get();
   ctx.registered.push({ name, group: ctx.groupStack.join(' › '), fn, options });
+}
+
+/**
+ * Removes and returns every benchmark registered so far. Bench files register when they are
+ * imported, and a file is only imported once, so call this right after importing each file to
+ * get that file's benchmarks; anything left behind is mixed into the next file's.
+ */
+export function takeRegistered(): BenchCase[] {
+  return get().registered.splice(0);
 }
