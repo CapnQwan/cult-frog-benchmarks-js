@@ -8,7 +8,6 @@ export function benchmarkCliArgs(argv: string[] = process.argv.slice(2)): Benchm
     args: argv,
     allowPositionals: false,
     options: {
-      baseline: { type: 'boolean', short: 'b' },
       save: { type: 'boolean', short: 's' },
       output: { type: 'string', short: 'o' },
     },
@@ -16,7 +15,6 @@ export function benchmarkCliArgs(argv: string[] = process.argv.slice(2)): Benchm
   });
 
   return {
-    baseline: args.values.baseline ?? false,
     save: args.values.save ?? false,
     output: args.values.output ?? undefined,
   };

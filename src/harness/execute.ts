@@ -12,10 +12,10 @@ export function runCases(cases: readonly BenchCase[], selectGroups: string[] = [
   const results: BenchResult[] = [];
 
   for (const registered of cases) {
-    const groups = registered.group.split(' › ');
+    const { groups } = registered;
     if (selectGroups.length > 0 && !groups.some((group) => selectGroups.includes(group))) continue;
     const summary = benchmark(registered.fn, registered.options);
-    results.push({ name: registered.name, group: registered.group, summary });
+    results.push({ name: registered.name, groups, summary });
   }
 
   return results;

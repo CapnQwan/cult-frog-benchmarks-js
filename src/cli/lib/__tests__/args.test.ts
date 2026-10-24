@@ -6,7 +6,7 @@ import { benchmarkCliArgs } from '../args.js';
 
 describe('benchmarkCliArgs', () => {
   it('should default to not saving', () => {
-    expect(benchmarkCliArgs([])).toEqual({ baseline: false, save: false, output: undefined });
+    expect(benchmarkCliArgs([])).toEqual({ save: false, output: undefined });
   });
 
   it('should parse long and short flags', () => {

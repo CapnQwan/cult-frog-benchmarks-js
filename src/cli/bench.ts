@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /** biome-ignore-all lint/suspicious/noConsole: CLI output goes to the console */
 
-import { relative, resolve } from 'node:path';
+import { posix, relative, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 import { context, createReport, output, runCases, write } from '../harness/index.js';
@@ -40,7 +40,8 @@ if (files.length === 0) console.warn(`No bench files matched ${include.join(', '
 const fileResults: BenchFileResult[] = [];
 
 for (const fullPath of files) {
-  const file = relative(cwd, fullPath);
+  // Always `/`-separated, so reports saved on Windows and elsewhere name files the same way
+  const file = relative(cwd, fullPath).split(sep).join(posix.sep);
 
   try {
     // import() takes a URL, and a Windows path like C:\a.bench.ts is not a valid one

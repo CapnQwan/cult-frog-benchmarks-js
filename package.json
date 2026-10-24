@@ -1,7 +1,7 @@
 {
   "name": "@cult-frog/benchmarks",
   "version": "0.0.0",
-  "description": "A dependency free benchmarks CLI for Cult Frog projects",
+  "description": "A lightweight benchmarking library and CLI for Cult Frog projects",
   "license": "MIT",
   "author": "Quin Partridge",
   "keywords": [

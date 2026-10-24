@@ -15,7 +15,7 @@ const FILES: BenchFileResult[] = [
     results: [
       {
         name: 'case',
-        group: 'group',
+        groups: ['group'],
         summary: {
           count: 1,
           iterations: 1,

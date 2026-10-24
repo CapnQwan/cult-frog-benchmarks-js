@@ -18,18 +18,26 @@ function percent(value: number) {
   return `±${value.toFixed(2)}%`.padStart(10);
 }
 
+/**
+ * Groups results under one heading per group, in the order each group first appears, so the
+ * output follows the order the benchmarks were declared in.
+ */
 export function format(results: BenchResult[]): string {
+  const byGroup = new Map<string, BenchResult[]>();
+  for (const result of results) {
+    const heading = result.groups.join(' › ');
+    const group = byGroup.get(heading);
+    if (group) group.push(result);
+    else byGroup.set(heading, [result]);
+  }
+
   let output = '';
 
-  const sorted = results.slice().sort((a, b) => a.group.localeCompare(b.group));
-  let currentGroup = '';
-
-  for (const { name, group, summary } of sorted) {
-    if (group !== currentGroup) {
-      currentGroup = group;
-      output += `\n${currentGroup}\n${''.padEnd(46)}      mean       p50       p99   samples       rme`;
+  for (const [heading, group] of byGroup) {
+    output += `\n${heading}\n${''.padEnd(46)}      mean       p50       p99   samples       rme`;
+    for (const { name, summary } of group) {
+      output += `\n  ${name.padEnd(44)}${duration(summary.mean)}${duration(summary.p50)}${duration(summary.p99)}${count(summary.count)}${percent(summary.rme)}`;
     }
-    output += `\n  ${name.padEnd(44)}${duration(summary.mean)}${duration(summary.p50)}${duration(summary.p99)}${count(summary.count)}${percent(summary.rme)}`;
   }
 
   return output;

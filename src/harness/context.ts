@@ -40,7 +40,7 @@ export function hasGroup() {
 
 export function registerCase(name: string, fn: () => unknown, options: BenchOptions) {
   const ctx = get();
-  ctx.registered.push({ name, group: ctx.groupStack.join(' › '), fn, options });
+  ctx.registered.push({ name, groups: ctx.groupStack.slice(), fn, options });
 }
 
 /**

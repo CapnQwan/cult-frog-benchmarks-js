@@ -2,7 +2,7 @@ import type { BenchResult } from './benchResult.js';
 
 /** The results of one bench file. */
 export interface BenchFileResult {
-  /** Path of the bench file, relative to the folder the CLI ran in. */
+  /** Path of the bench file, relative to the folder the CLI ran in, with `/` separators. */
   file: string;
   results: BenchResult[];
 }

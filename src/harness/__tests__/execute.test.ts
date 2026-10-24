@@ -21,7 +21,7 @@ vitest.describe('execute', () => {
   vitest.it('should run every registered benchmark', () => {
     const results = execute();
     vitest.expect(results.map((result) => result.name)).toEqual(['a', 'b', 'c']);
-    vitest.expect(results[1]?.group).toBe('outer › inner');
+    vitest.expect(results[1]?.groups).toEqual(['outer', 'inner']);
   });
 
   vitest.it('should only run benchmarks in a selected group or its subgroups', () => {
